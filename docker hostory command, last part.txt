@@ -1,0 +1,202 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Try the new cross-platform PowerShell https://aka.ms/pscore6
+PS C:\Users\DELL> dokcer network ls
+dokcer : The term 'dokcer' is not recognized as the name of a cmdlet, function, script file, or operable program. Check     
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ dokcer network ls
+    + CategoryInfo          : ObjectNotFound: (dokcer:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+PS C:\Users\DELL> docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+8cad543774d1   N1        bridge    local
+ba62486aa9b7   bridge    bridge    local
+c4632bb09c38   host      host      local
+b024150c32b4   none      null      local
+PS C:\Users\DELL> docker inspect network bridge
+[
+    {
+        "Name": "bridge",
+        "Id": "ba62486aa9b7aa449f04c0803d841094e21b6619e73bd8a05d68fd2cf76d5210",
+        "Created": "2026-04-09T07:30:12.962896164Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.17.0.0/16",
+                    "Gateway": "172.17.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Options": {
+            "com.docker.network.bridge.default_bridge": "true",
+            "com.docker.network.bridge.enable_icc": "true",
+            "com.docker.network.bridge.enable_ip_masquerade": "true",
+            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
+            "com.docker.network.bridge.name": "docker0",
+            "com.docker.network.driver.mtu": "1500"
+        },
+        "Labels": {},
+        "Containers": {},
+        "Status": {
+            "IPAM": {
+                "Subnets": {
+                        "IPsInUse": 3,
+                        "DynamicIPsAvailable": 65533
+                    }
+                }
+            }
+        }
+    }
+]
+error: no such object: network
+PS C:\Users\DELL> docker network inspect bridge
+[
+    {
+        "Name": "bridge",
+        "Id": "ba62486aa9b7aa449f04c0803d841094e21b6619e73bd8a05d68fd2cf76d5210",
+        "Created": "2026-04-09T07:30:12.962896164Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.17.0.0/16",
+                    "Gateway": "172.17.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Options": {
+            "com.docker.network.bridge.default_bridge": "true",
+            "com.docker.network.bridge.enable_icc": "true",
+            "com.docker.network.bridge.enable_ip_masquerade": "true",
+            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
+            "com.docker.network.bridge.name": "docker0",
+            "com.docker.network.driver.mtu": "1500"
+        },
+        "Labels": {},
+        "Containers": {},
+        "Status": {
+            "IPAM": {
+                    "172.17.0.0/16": {
+                        "DynamicIPsAvailable": 65533
+                    }
+                }
+            }
+        }
+    }
+PS C:\Users\DELL> docker network create hello
+1eb9fa92fc4996f00d1da237059c9c64daf97956e113cd340514efa96dafcb9e
+PS C:\Users\DELL> docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+ba62486aa9b7   bridge    bridge    local
+1eb9fa92fc49   hello     bridge    local
+c4632bb09c38   host      host      local
+b024150c32b4   none      null      local
+PS C:\Users\DELL> docker run -d --name container1 --network my_bridge nginx
+docker: Error response from daemon: failed to set up container networking: network my_bridge not found
+Run 'docker run --help' for more information
+PS C:\Users\DELL> docker run -d --name container1 --network bridge nginx   
+docker: Error response from daemon: Conflict. The container name "/container1" is already in use by container "c6aac884706d0
+1b7e2073a33d315c36c409a16a8b1126867b07f2aaeb6302b81". You have to remove (or rename) that container to be able to reuse that
+
+Run 'docker run --help' for more information
+PS C:\Users\DELL> docker run -d --name container2 --network bridge nginx
+619fd74b5872ed8109846b729cc802f06d55e6c1dbe42ea3df2ddd23e2a71642
+PS C:\Users\DELL> docker run -d --name container3 --network bridge apline sleep 300
+Unable to find image 'apline:latest' locally
+docker: Error response from daemon: pull access denied for apline, repository does not exist or may require 'docker login'  
+Run 'docker run --help' for more information
+PS C:\Users\DELL> docker pull alpine
+Using default tag: latest
+latest: Pulling from library/alpine
+9e595aac14e0: Download complete
+Status: Downloaded newer image for alpine:latest
+PS C:\Users\DELL> docker run -d --name container3 --network bridge apline sleep 300
+Unable to find image 'apline:latest' locally
+docker: Error response from daemon: pull access denied for apline, repository does not exist or may require 'docker login'  
+
+Run 'docker run --help' for more information
+PS C:\Users\DELL> docker run -d --name container3 --network bridge nginx
+PS C:\Users\DELL> docker exec -it container3 ping container2
+OCI runtime exec failed: exec failed: unable to start container process: exec: "ping": executable file not found in $PATH   
+PS C:\Users\DELL> docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+8cad543774d1   N1        bridge    local
+1eb9fa92fc49   hello     bridge    local
+b024150c32b4   none      null      local
+docker: Error response from daemon: Conflict. The container name "/container2" is already in use by container "619fd74b5872e
+ name.
+Run 'docker run --help' for more information
+75fef70e1c6e5fac0007d3f0eb1718f42ec5d60992aa4bb7181e0df5d5070957
+PS C:\Users\DELL> docker run -d --name container6 --network bridge alpine sleep 300
+3c16b9cae89251dc1c9e58278b200af9e055988eb0b8bb680e1579af62197f90
+PS C:\Users\DELL> docker exec -it container6 ping container2
+ping: bad address 'container2'
+PS C:\Users\DELL> docker exec -it container6 ping container1
+ping: bad address 'container1'
+PS C:\Users\DELL> docker exec -it container6 ping container2
+ping: bad address 'container2'
+PS C:\Users\DELL> docker history nginx
+IMAGE          CREATED       CREATED BY                                      SIZE      COMMENT
+7150b3a39203   2 weeks ago   CMD ["nginx" "-g" "daemon off;"]                0B        buildkit.dockerfile.v0
+<missing>      2 weeks ago   STOPSIGNAL SIGQUIT                              0B        buildkit.dockerfile.v0
+<missing>      2 weeks ago   EXPOSE map[80/tcp:{}]                           0B        buildkit.dockerfile.v0
+<missing>      2 weeks ago   ENTRYPOINT ["/docker-entrypoint.sh"]            0B        buildkit.dockerfile.v0
+<missing>      2 weeks ago   COPY 30-tune-worker-processes.sh /docker-ent…   16.4kB    buildkit.dockerfile.v0
+<missing>      2 weeks ago   COPY 20-envsubst-on-templates.sh /docker-ent…   12.3kB    buildkit.dockerfile.v0
+<missing>      2 weeks ago   COPY 15-local-resolvers.envsh /docker-entryp…   12.3kB    buildkit.dockerfile.v0
+<missing>      2 weeks ago   COPY 10-listen-on-ipv6-by-default.sh /docker…   12.3kB    buildkit.dockerfile.v0
+<missing>      2 weeks ago   RUN /bin/sh -c set -x     && groupadd --syst…   86.7MB    buildkit.dockerfile.v0
+<missing>      2 weeks ago   ENV DYNPKG_RELEASE=1~trixie                     0B        buildkit.dockerfile.v0
+<missing>      2 weeks ago   ENV PKG_RELEASE=1~trixie                        0B        buildkit.dockerfile.v0
+<missing>      2 weeks ago   ENV ACME_VERSION=0.3.1                          0B        buildkit.dockerfile.v0
+<missing>      2 weeks ago   ENV NJS_RELEASE=1~trixie                        0B        buildkit.dockerfile.v0
+<missing>      2 weeks ago   ENV NJS_VERSION=0.9.6                           0B        buildkit.dockerfile.v0
+<missing>      2 weeks ago   ENV NGINX_VERSION=1.29.7                        0B        buildkit.dockerfile.v0
+<missing>      2 weeks ago   LABEL maintainer=NGINX Docker Maintainers <d…   0B        buildkit.dockerfile.v0
+PS C:\Users\DELL> docker info | grep "Storage Driver"
+grep : The term 'grep' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the     
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:15
++ docker info | grep "Storage Driver"
++               ~~~~
+    + CategoryInfo          : ObjectNotFound: (grep:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+PS C:\Users\DELL> docker info | grep "Storage Driver"
+grep : The term 'grep' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the     
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:15
++ docker info | grep "Storage Driver"
++               ~~~~
+    + CategoryInfo          : ObjectNotFound: (grep:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+PS C:\Users\DELL>

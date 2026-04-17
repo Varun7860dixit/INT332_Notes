@@ -1,0 +1,34 @@
+		CONTAINER INTERACTION COMMMANDS
+
+docker exec -it <container_id> bash -> open terminal inside running container
+docker logs <container_id> -> shw conatiner ooutput logs
+docker inspect <conatiner_id> -> displays detailed configuration in JSON format
+docker starts -> show live cpu, memory usage of conatiners
+docker top <conatiner_id> -> displays running processes inside conatiner
+
+docker run -dit --name myubuntu ubuntu
+docker start ubuntu
+
+
+		VOLUMES COMMANDS
+
+docker volume create myvolume
+docker volume ls -> list all volume
+docker volume inspect myvolume -> show volume details
+docker volume rm myvolume -> remove a volume
+
+	
+		NETWORK COMMANDS
+
+docker network create mynetwork
+docker network ls
+docker network inspect mynetwork
+docker network rm mynetwork
+
+
+		CLEANUP COMMANDS
+
+docker stop $(docker ps -aq) -> stops all container
+docker rm $(docker ps -aq) -> removes all containers
+docker rmi $(docker images -q) -> deletes all images
+docker system prune -a -> cleans unused containers, networks, volumes, images

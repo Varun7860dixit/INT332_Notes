@@ -1,0 +1,33 @@
+		GHCR-> GITHUB CONTAINER REGISTRY
+
+registry = place to store images
+1. Docker Hub -> official public registry
+
+docker login
+docker tag nginx username/myimage:latest
+docker push username/myimage:latest
+
+GHCR ->
+
+registry provied by github
+
+echo YOUR_GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+
+docker tag nginx ghcr.io/username/muimage:latest
+
+docker push ghcr.i/username/myimage:latest
+
+PRIVATE REGISTRY:- run your own registry
+
+docker run -d -p 5000:5000 --name registry registry:2
+docker tag nginx localhost:5000/myimage
+docker push localhost:5000/myimage
+
+
+
+AUTHENTICATION and ACCESS TOKENS
+	instead of passwords we can use access tokens
+
+Docker hub token:- generate token from docker hub settings
+To Login:
+	docker login -u username

@@ -1,0 +1,19 @@
+			CONTROL GROUPS (CGROUPS)
+
+these are linux kernel features that limit, control, and monitor usage of processes.
+
+they ensure :
+	no container can monopolize system resources
+	fair sharing of cpu, memory, an I/O
+
+"Namespaces isolate, cgroups control.”
+
+without cgroups, 
+	one container can consume all CPU or RAM
+	host and other containers could crash
+
+types of resoucees controlled by cgroups -> CPU, Memory, Disk I/O, Network
+
+cgroups are like electricity meters in apartments:
+Each flat has a limit
+One tenant cannot use all power

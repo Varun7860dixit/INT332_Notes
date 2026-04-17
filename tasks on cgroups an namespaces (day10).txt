@@ -1,0 +1,29 @@
+Task 1: A company uses containers for microservices. One faulty container crashes the host due to high memory usage.
+
+
+Questions:
+Which container feature was misconfigured or missing?
+Which kernel mechanism should have prevented this?
+Would namespaces alone solve this issue? Why?
+
+ANSWERS:
+1. resource limits
+2. cgroups
+3. No. Namespaces are purely about visibility. A PID namespace might make a process think it is the only thing running on the system, but that process still shares the same physical RAM and CPU cycles as every other process on the host.
+
+
+Task 2: A server is running three containers:
+Container A runs a CPU-intensive task
+Container B runs a web server
+Container C runs a database
+
+Questions:
+Which Linux feature prevents Container A from consuming all CPU?
+Which feature ensures Container B cannot see processes of Container C?
+Which namespace allows all three containers to use port 80 internally?
+
+ANSWERS:
+
+1. cgroups (Control Groups).
+2. PID Namespace.
+3. Network Namespace.

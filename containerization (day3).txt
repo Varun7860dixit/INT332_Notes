@@ -1,0 +1,43 @@
+				CONTAINERIZATION
+
+lets understand this by an example
+
+we take PG's and hostels to stay for our colleges or for job purposes
+there we don't own the building, we don't manage electricity and we don't worry about maintenance,
+everything done by the main owners.
+
+THAT'S WHAT THE CONTAINERIZATION IS:
+
+	it doesn't need an entire OS, it uses a bare minimum OS.
+	share the host OS and only bring wat the application needs
+	starts in seconds, consume minimal resources
+	can run dozens-evne hundreds of containers on the same machine
+	containerization tools serve the purpose like docker, as all applications are turning to microservices
+	portability is solved in containerization
+
+
+CONTAINER RUNTIME:
+	software responsible for managing, creating, staring and stopping containers on host system
+	acts as the execution engine that turns a container image into a running container
+	In layman terms, it is what actually runs containers
+
+NEED:
+	container image is just read only package (application + dependencies)
+	to run, system needs a runtime to:
+		create an isolated enviroment
+		apply resource limits
+		start the application process
+		monitor and stop it when required
+
+
+TYPES OF CONTAINER RUNTIME:
+	1. High level runtime -> used by users and DevOps
+	Docker Engine, conatinerd
+	
+	2. Low level runtime -> responsible for actually running the container process
+	runc (OCI-complaint)
+	directly interact with : linux kernel, Namespaces , cgroups
+
+Real-World Analogy
+Container Image → Packed lunch box
+Container Runtime → Person who opens it, serves food, and cleans up

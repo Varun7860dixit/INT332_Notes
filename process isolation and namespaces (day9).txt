@@ -1,0 +1,45 @@
+PROCESS ISOLATION->
+	it ensures that each container runs as if it is alone on the system, even though multiple containers share the same OS kernel.
+
+	This isolation si achieved by linux namespaces.
+
+but they still discover each other and consume the services if needed.
+
+		
+			NAMESPACES
+
+linux kernel features that partition system resources so that processes see only what they belongs to them.
+
+basically they create the illusion of a seperate system for each container.
+
+TYPES OF NAMESPACES->
+	1. PID Namespace (process isolation)
+
+		each container has its own process tree
+		process IDs inside container start from 1
+		a container can't see host or other container processes
+
+	2. Network Namespace
+		
+		each container gets its own IP address, its own ports
+		that's why multiple containers can all listen on port 80 simultaneously without a port conflict, they each have their own localhost.
+		you can have a vitual ethernet pair (veth) taht connects the container's network namespace to host's namespace.
+		
+
+	3. Mount Namespace
+
+		each container has its own filesystem view
+		file changes inside container do not affect host
+
+	4. UTS Namespace
+		
+		allow each container to have its own hostname regardless of host machine 
+
+	5.User Namespace
+
+		maps container users to non-root users on host
+		improves security
+		A process can have a normal, unprivileged user ID (like UID 1000) on the host, but appear as root (UID 0) inside the namespace.
+
+	EXAMPLE:- same train-same engine, different cabins, no visibility between cabins
+		

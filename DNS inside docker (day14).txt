@@ -1,0 +1,47 @@
+			DNS INSIDE DOCKER
+
+docker has built-in DNS
+containers resolve each other by conatiner name
+work only in user-defined 
+
+
+docker network create app_net
+docker run -d --name backend --network app_net nginx
+docker run -d --name backend --network app_net alpine sh
+ping backend
+
+
+before custom network : docker used --link
+deprecated method. use network instead
+
+docker run -d --name db nginx
+docker run -it --name app --link db:database alpine sh
+
+docker volume create my_volume
+docker volume ls
+docker run -d --name my_nginx/ -v my_volume:/usr/share/nginx/html \nginx
+
+mounts host directory into container
+useful for development
+
+docker run -d\ -v $(pwd)/html:/usr/share/nginx/html `nginx -p 8080:80 \nginx
+
+
+BACKING DATA ON HOST
+
+docker volume create mysql_data
+
+docker run -d --name mysql_db -e MYSQL_ROOT_PASSWOR......
+
+COW MECHANISM -> copy-on-write mechanism
+
+docker imges use layered filesystem
+basel image layer (read-only)
+new layer (rea only)
+container layer (writable)
+when file changes -> copies to writable layer
+
+docker history nginx
+docker info | grep "Storage Driver"
+
+ 
