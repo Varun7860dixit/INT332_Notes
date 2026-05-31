@@ -1,0 +1,17 @@
+5. Plugins & The Maven Wrapper
+Maven by itself is actually pretty dumb. It’s just a coordinator. The real heavy lifting is done by Plugins that hook into the lifecycle phases.
+
+Compiler Plugin: Hooks into compile. Tells Maven which version of Java to use (e.g., Java 17).
+
+Surefire Plugin: Hooks into test. This is the thing that actually fires up your JUnit tests and prints the results.
+
+Shade Plugin: Hooks into package. It creates an "Uber-JAR" (also called a Fat JAR). It takes your code and literally mashes all your third-party dependencies into one single, giant .jar file. You can take this one file to any computer and run it with java -jar app.jar.
+
+The Maven Wrapper (mvnw)
+Imagine you cloned a project that requires Maven 3.9, but your laptop has Maven 3.5 installed. The build fails.
+To fix this, we use the Maven Wrapper. It drops a tiny script (mvnw for Linux, mvnw.cmd for Windows) directly into your project.
+Instead of typing mvn clean package, you type:
+
+Bash
+./mvnw clean package
+The script checks your computer. If you don't have the right version of Maven, it silently downloads it in the background and uses it just for this project. Absolute lifesaver for team projects.

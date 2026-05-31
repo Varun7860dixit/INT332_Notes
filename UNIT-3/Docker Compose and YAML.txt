@@ -1,0 +1,33 @@
+2. Docker Compose & YAML Structural Mechanics
+Running a microservices application locally using raw Docker commands means your terminal history looks like a mess of docker run --network my-net -p 8080:80 -v db-data:/var/lib/mysql... for every single service.
+
+Docker Compose is a tool that allows you to define and manage multi-container applications using a single, declarative text file written in YAML (Yet Another Markup Language).
+
+Key Configuration Elements in docker-compose.yml
+services: This defines the actual containers you want to build and run. Each sub-key under services is a custom name for a container.
+
+version: (Legacy but still seen) Defines the schema version of the compose file format. Modern Docker Compose automatically infers this, so it is often omitted in newer versions.
+
+volumes: Centralized declaration of top-level named storage pools shared across containers.
+
+networks: Custom isolated virtual networks that allow your containers to discover and talk to each other securely using their service names as DNS hostnames.
+
+Structural Differences: build vs. image
+When defining a service in Compose, you have to tell Docker where to get the container's filesystem:
+
+image: Tells Compose to download a pre-built image from a remote registry like Docker Hub (e.g., image: postgres:15).
+
+build: Tells Compose that you wrote a custom app locally. It points to a local directory containing a custom Dockerfile. Compose will automatically build the image on your machine before running it (e.g., build: ./backend).
+
+Service Dependency Ordering (depends_on)
+Containers start up rapidly and concurrently. If your backend container starts up and immediately tries to connect to your database container before the database has finished fully initializing its internal engines, your backend will crash.
+
+The depends_on key controls the startup sequence:
+
+YAML
+services:
+  backend:
+    build: ./backend
+    depends_on:
+      database:
+        condition: service_healthy # Waits for the database healthcheck to pass, not just start!

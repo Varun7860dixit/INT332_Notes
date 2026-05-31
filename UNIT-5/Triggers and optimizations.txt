@@ -1,0 +1,70 @@
+3. Workflow Triggers (Events)
+Triggers tell GitHub when to execute your automation sequence. You define them under the on: key:
+
+Common Triggers
+push: Runs the moment code hits a branch.
+
+pull_request: Runs when someone opens or updates a PR—perfect for checking if a contributor's code breaks your main build before you merge it.
+
+schedule (Cron Jobs): Runs automatically at specific time intervals using standard Unix cron syntax.
+
+workflow_dispatch: Adds a manual "Run workflow" button right inside the GitHub UI interface. Great for running manual deployments.
+
+📝 Code Example:
+YAML
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * *' # Runs every single night at midnight UTC
+  workflow_dispatch:   # Enables the manual click button
+🔀 4. Advanced Job Strategies & Optimization
+Steps vs. Shell Commands
+Inside a job's steps: array, you can either execute raw terminal commands or call pre-built plugins from the GitHub Marketplace:
+
+YAML
+steps:
+  # 1. Using a Marketplace Action to clone your repository files
+  - name: Checkout Repository Code
+    uses: actions/checkout@v4
+
+  # 2. Using a language-specific action to configure the runner environment
+  - name: Set up Java Development Kit
+    uses: actions/setup-java@v4
+    with:
+      distribution: 'temurin'
+      java-version: '17'
+
+  # 3. Running a raw shell command to invoke your build tool
+  - name: Build Application with Maven Wrapper
+    run: ./mvnw clean package
+Multi-Job Workflows & Dependencies
+By default, Job A and Job B run at the same time to save time. But what if Job B is a "Deploy" task that should only run if Job A's "Build and Test" task passes? You use the needs key to chain them sequentially:
+
+YAML
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Compiling and running unit tests..."
+
+  deploy-to-cloud:
+    runs-on: ubuntu-latest
+    needs: build-and-test # This blocks execution until build-and-test succeeds!
+    steps:
+      - run: echo "Deploying code to production server..."
+Matrix Strategies
+Imagine you built an open-source library and need to verify it works flawlessly across Java versions 11, 17, and 21, on both Linux and Windows. Instead of copy-pasting your job configurations 6 separate times, you define a matrix:
+
+YAML
+strategy:
+  matrix:
+    os: [ubuntu-latest, windows-latest]
+    java-version: [11, 17, 21]
+GitHub will automatically multiply your parameters and spawn 6 distinct, parallel runner jobs concurrently.
+
+Using Caching for Faster Builds
+Every time a GitHub runner boots up, it starts completely blank. For a Maven project, this means it downloads your entire internet's worth of dependencies every single time you push code, slowing down your pipeline.
+By adding a caching step, GitHub saves your ~/.m2/repository folder after the first build. On subsequent runs, it restores those files instantly, cutting build times significantly.

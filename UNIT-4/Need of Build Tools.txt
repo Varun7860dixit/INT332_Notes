@@ -1,0 +1,17 @@
+1. Why do we even need build tools?
+Back in the day, if you wanted to run a Java file, you opened your terminal and typed:
+
+Bash
+javac Main.java
+java Main
+That works for a simple "Hello World" assignment. But in real-world engineering, your project has 500 folders, 2,000 files, and relies on 50 different external libraries (like Spring Boot, Hibernate, etc.) written by other people.
+
+If you try to manage that manually, you run into three massive problems:
+
+Jar Hell: You have to manually download .jar files from the internet, stick them in a folder, and hope they don't break each other.
+
+"Works on my machine": It compiles perfectly on your laptop because you set up a random environment variable three months ago, but it completely crashes on your friend's laptop or the production server.
+
+No Structure: Everyone organizes their code differently. One guy puts source code in /src, another puts it in /code. It’s chaos.
+
+The Fix: Build tools like Maven automate all of this. You type one command, and it downloads everything, runs your tests, compiles the code, and packages it perfectly.

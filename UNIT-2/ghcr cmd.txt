@@ -1,0 +1,102 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Try the new cross-platform PowerShell https://aka.ms/pscore6
+
+PS C:\Users\DELL> mkdir ghcr-demo
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        10-04-2026     13:17                ghcr-demo
+
+
+PS C:\Users\DELL> cd ghcr-demo
+PS C:\Users\DELL\ghcr-demo> notepad dockerfile
+PS C:\Users\DELL\ghcr-demo> notepad index.html
+PS C:\Users\DELL\ghcr-demo> ren dockerfile.txt dockerfile
+PS C:\Users\DELL\ghcr-demo> dir
+
+    Directory: C:\Users\DELL\ghcr-demo
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        10-04-2026     13:20             67 dockerfile
+-a----        10-04-2026     13:20             26 index.html
+
+
+PS C:\Users\DELL\ghcr-demo> docker build -t ghcr-demo:v1 .
+[+] Building 66.7s (7/7) FINISHED                                                                      docker:desktop-linux
+ => [internal] load build definition from dockerfile                                                                   5.5s
+ => => transferring dockerfile: 104B                                                                                   0.9s
+ => [internal] load metadata for docker.io/library/nginx:alpine                                                       21.4s
+ => [internal] load .dockerignore                                                                                      0.2s
+ => => transferring context: 2B                                                                                        0.0s
+ => [internal] load build context                                                                                      0.7s
+ => => transferring context: 63B                                                                                       0.1s 
+ => [1/2] FROM docker.io/library/nginx:alpine@sha256:582c496ccf79d8aa6f8203a79d32aaf7ffd8b13362c60a701a2f9ac64886c93  23.0s
+ => => resolve docker.io/library/nginx:alpine@sha256:582c496ccf79d8aa6f8203a79d32aaf7ffd8b13362c60a701a2f9ac64886c93d  0.4s
+ => => sha256:c8a2fa3a88d244a3f32dcbc9c1f7649c662661a28c624198ada43aa0b7598e7f 1.40kB / 1.40kB                         2.1s
+ => => sha256:1165b869c51a1a0747d78cec8fab96c30156a979e51ecf2f91aa792e557d94a4 20.25MB / 20.25MB                      18.4s 
+ => => sha256:34dfdd2ef1f920d0054dde2fc09ddc83ff8e71d05fadb79e2cab6e6234596f0a 1.21kB / 1.21kB                         2.6s 
+ => => sha256:a71873b303e8d75170b7ced2725b01b3ae15ad76f0d4eef16a49335821b6a0ef 404B / 404B                             2.6s 
+ => => sha256:ff9f59a6a62e9e9f29d7a84fb18865b45664d3f0d061eff7548bd61746dd101c 957B / 957B                             1.1s 
+ => => sha256:15e759724ff67f262e38bb7c070af9d0b84f959f9b37fa966f68bf2f881a4b62 627B / 627B                             1.8s
+ => => sha256:f03becc8ac15611cfcc421c977a5ba4d65456093570788523a4ba557689aa7f7 1.87MB / 1.87MB                         3.6s
+ => => extracting sha256:f03becc8ac15611cfcc421c977a5ba4d65456093570788523a4ba557689aa7f7                              4.5s 
+ => => extracting sha256:15e759724ff67f262e38bb7c070af9d0b84f959f9b37fa966f68bf2f881a4b62                              0.5s 
+ => => extracting sha256:ff9f59a6a62e9e9f29d7a84fb18865b45664d3f0d061eff7548bd61746dd101c                              0.6s
+ => => exporting manifest sha256:7053b9e019f048adb7bb689d8e011dd855aa78b7ac614deb2ed579dd8c090ba0                      0.8s 
+ => => exporting config sha256:bb02f98744aa3de0751bb48a6eccc3651573d3216adf114d70f1199d19f8de87                        0.7s 
+ => => exporting attestation manifest sha256:6dc152d0c5841919b6826e791fd1d8d267ce598d5b1a0e60156692786fe01ce2          1.9s 
+ => => naming to docker.io/library/ghcr-demo:v1                                                                        0.0s 
+ => => unpacking to docker.io/library/ghcr-demo:v1                                                                     0.1s 
+PS C:\Users\DELL\ghcr-demo> docker login ghcr.io
+Username: Vansh-Arora09
+Password:
+Login Succeeded
+PS C:\Users\DELL\ghcr-demo> docker tag ghcr-de
+docker: 'docker tag' requires 2 arguments
+
+Run 'docker tag --help' for more information
+PS C:\Users\DELL\ghcr-demo> ^O
+☼ : The term '☼' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling  
+of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ ☼
++ ~
+    + CategoryInfo          : ObjectNotFound: (☼:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+PS C:\Users\DELL\ghcr-demo> docker tag ghcr-demo:v1 ghcr-demo:v1
+PS C:\Users\DELL\ghcr-demo> docker push ghcr-demo:v1 
+c8a2fa3a88d2: Waiting
+f03becc8ac15: Waiting
+0e6e9bffd34e: Waiting
+1165b869c51a: Waiting
+ff9f59a6a62e: Waiting
+c430139d6114: Waiting
+a71873b303e8: Waiting
+push access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorizatio
+n failed
+PS C:\Users\DELL\ghcr-demo> docker push ghcr.io/Vansh-Arora09/ghcr-demo:v1
+invalid reference format: repository name (Vansh-Arora09/ghcr-demo) must be lowercase
+PS C:\Users\DELL\ghcr-demo> docker push ghcr.io/vansh-arora09/ghcr-demo:v1
+The push refers to repository [ghcr.io/vansh-arora09/ghcr-demo]
+tag does not exist: ghcr.io/vansh-arora09/ghcr-demo:v1
+PS C:\Users\DELL\ghcr-demo> docker tag ghcr-demo:v1 ghcr.io/vansh-arora09/ghcr-demo:v1
+PS C:\Users\DELL\ghcr-demo> docker push ghcr.io/vansh-arora09/ghcr-demo:v1
+The push refers to repository [ghcr.io/vansh-arora09/ghcr-demo]
+f03becc8ac15: Pushing [=====================================>             ]  1.409MB/1.871MB
+ff9f59a6a62e: Pushed
+589002ba0eae: Pushing [===============>                                   ]  1.212MB/3.862MB
+34dfdd2ef1f9: Pushed
+c8a2fa3a88d2: Pushed
+c430139d6114: Pushed
+15e759724ff6: Pushed
+a71873b303e8: Pushed
+1165b869c51a: Pushing [====>                                              ]  1.737MB/20.25MB
+0e6e9bffd34e: Pushed
+failed to copy: failed to do request: Put "https://ghcr.io/v2/vansh-arora09/ghcr-demo/blobs/upload/af5ba6d9-4c98-4438-aea4-0
+1581c9250cd?digest=sha256%3A1165b869c51a1a0747d78cec8fab96c30156a979e51ecf2f91aa792e557d94a4": write tcp 192.168.65.3:34070-
+>192.168.65.1:3128: use of closed network connection
+PS C:\Users\DELL\ghcr-demo>

@@ -1,0 +1,12 @@
+1. Jenkins Foundations & Core Architecture
+The Controller-Agent Model (Master/Agent)
+Jenkins does not try to run every single build on a single server. If you have 100 teams pushing code simultaneously, a single server would crash instantly. Instead, Jenkins uses a distributed Controller-Agent (formerly Master/Slave) Architecture.
+
+Jenkins Controller (Master): The brain of the operation. It hosts the Web UI, manages user accounts, handles security permissions, tracks plugins, and schedules builds. It does not (or at least should not) execute the actual compilation code tasks.
+
+Jenkins Agents (Workers): Lightweight virtual machines or containers running a small Jenkins service executable. They wait for orders from the Controller, execute the actual shell scripts, compile the Java jars, build the Docker images, and send the logs back to the Controller.
+
+Management & Security Essentials
+Plugins Management: Out of the box, Jenkins is barebones. If you want it to speak to Git, Maven, Slack, or Docker, you must go to Manage Jenkins -> Plugins and install them. Plugins handle the heavy translation logic between tools.
+
+Security & RBAC (Role-Based Access Control): You don't want a junior intern clicking a button that accidentally deploys broken code to production. Jenkins uses RBAC plugins to let administrators define explicit roles (e.g., Developer, QA, Admin) and restrict who can view, configure, or manually run specific automation workflows.

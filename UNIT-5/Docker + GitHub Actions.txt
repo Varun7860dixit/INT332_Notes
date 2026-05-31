@@ -1,0 +1,63 @@
+6. Docker & GitHub Actions CI/CD Integration
+One of the most common real-world use cases for GitHub Actions is building a Docker container image of your application and pushing it directly to an image repository like Docker Hub or GitHub Container Registry (GHCR).
+
+Secure Pipeline Configuration Blueprint
+Here is a complete, production-ready .github/workflows/ci.yml template that handles building a Java app with Maven, containerizing it via Docker, and pushing it to a registry securely using encrypted GitHub Secrets:
+
+YAML
+name: Production End-to-End CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  pipeline-execution:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Pull source code down into the workspace
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      # Step 2: Configure the target JDK installation environment
+      - name: Initialize Java Runtime Environment
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven' # Built-in caching strategy for speed optimization
+
+      # Step 3: Run compilation and testing suite via Maven
+      - name: Build and Package with Maven
+        run: ./mvnw clean package -DskipTests
+
+      # Step 4: Set up Docker Buildx (advanced building tool features)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Step 5: Authenticate into Docker Hub registry platform securely
+      - name: Authenticate with Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }} # Kept safe inside GitHub Secrets
+          password: ${{ secrets.DOCKERHUB_TOKEN }}    # Personal Access Token reference
+
+      # Step 6: Package the application workspace and push the image tag
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/my-app:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/my-app:${{ github.sha }} # Tags image with unique Git commit hash
+🔐 Quick Note on Security Management (GitHub Secrets)
+Never write raw passwords, API keys, or cloud credentials directly into your YAML configuration files. If your repo is public, anyone can scrape them.
+
+Go to your GitHub Repository Settings -> Secrets and variables -> Actions.
+
+Save your sensitive credentials there (e.g., DOCKERHUB_TOKEN).
+
+Reference them in your YAML script using the secure token substitution syntax: ${{ secrets.NAME_OF_YOUR_SECRET }}. GitHub will mask these values with asterisks (***) in the compilation build log readouts.

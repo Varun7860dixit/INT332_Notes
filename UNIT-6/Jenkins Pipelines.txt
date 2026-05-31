@@ -1,0 +1,36 @@
+2. Jenkins Pipelines: Freestyle vs. Code-Driven Pipelines
+The Evolution: Freestyle vs. Pipeline Jobs
+Freestyle Jobs (The Old Way): You configure your steps by clicking buttons, filling out forms, and typing text directly into the Jenkins Web UI.
+
+The Problem: If the Jenkins server crashes or someone changes a setting, your entire pipeline configuration is lost. It is impossible to version-control or track modifications over time.
+
+Pipeline Jobs (The Modern Way): You write your pipeline structure entirely in a text file called a Jenkinsfile and store it directly inside your Git repository alongside your source code. This is Pipeline as Code. If your Jenkins server goes down, you just point a new instance to your Git repository, and your pipeline is completely restored.
+
+⚔️ Declarative vs. Scripted Pipeline Syntax
+There are two distinct ways to write a Jenkinsfile. You must know the difference for your exams:
+
+Option A: Declarative Syntax (Highly Recommended)
+Strict, highly structured, and easy to read. It uses predefined blocks (like pipeline, stages, stage, steps). It handles errors gracefully and is the industry standard.
+
+Groovy
+pipeline {
+    agent any 
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Compiling code...'
+            }
+        }
+    }
+}
+Option B: Scripted Syntax (The Legacy Apache Groovy Way)
+Imperative, loose, and powerful. It is written using direct Apache Groovy code logic. It lets you write complex programming structures (like if-else loops, try-catch blocks) but becomes messy and incredibly difficult to maintain very quickly.
+
+Groovy
+node {
+    stage('Build') {
+        if (env.BRANCH_NAME == 'main') {
+            echo 'Compiling production code...'
+        }
+    }
+}

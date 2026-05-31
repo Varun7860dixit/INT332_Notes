@@ -1,0 +1,4 @@
+mkdir man2
+cd man2
+notepad docker-compose.yml
+docker-compose up --build or docker-compose up -d

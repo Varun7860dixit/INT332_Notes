@@ -1,0 +1,77 @@
+		MAVEN 
+
+used for building automation
+
+lifecycle - depenency management, plugins, docker integration
+
+
+why maven->
+	manual conpilation plan
+	depenency hull
+	repetitive tasks
+	inconsistent builds
+
+POM FILE - project object model
+
+groupId, ArtifactId, version, packaging, Dependencies, build, Profiles
+
+Standard maven directory structure
+
+src/main/java
+src/main/resources
+src/test/java
+src/test/resources
+target/
+pom.xml
+
+my-project
+pom.xml
+src
+	main
+		java
+			com/example
+		resources
+	test
+		java
+		resources
+target
+
+lifecycle- validate, compile, test, package, verify, install, deploy
+
+
+Parent pom- same file for multiple projects
+benefits - centalized dependency version management
+shared plugin configuration
+consistent build behaviour
+
+Transitive dependency & version conflicts
+conlfict reslution - nearest wins
+
+solution->
+explicit direct dependency declaration
+BOM import
+
+Maven plugins & execution
+plugins bind goals to lifecycle phases
+compiler plugin, surefire plugin
+
+
+Shade plugin - creating an uber jar
+uber - german for over/super 
+compiled code plus all dependency jar merged inside in it.
+
+
+Maven wrapper - mvnw
+mvnw is a script commited to your repo.
+run- mvn wrapper:wrapper
+usage - ./mvnw clean package
+./mvnw spring bootrun
+mvnw.cmd clean install
+
+
+Maven an docker integration
+1. build jar
+2. write dockerfile
+3. build image
+4. tag image
+5. push to registry

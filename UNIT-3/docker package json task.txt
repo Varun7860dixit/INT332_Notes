@@ -1,0 +1,17 @@
+project
+--------docker-compose.yml
+---------backend/
+	  |-----dockerfile
+	 |-------pom.xml
+	 |-------src/
+--------frontend/
+	|---------dockefile
+	|---------package.json
+	|----------src/
+-------.env
+
+
+docker-compose up --build
+
+create docker-compose.yml file
+docker-compose up -d

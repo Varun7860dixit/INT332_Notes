@@ -1,0 +1,55 @@
+4. Jenkins & Maven Integration
+To build Java applications effectively inside Jenkins, you need to manage your system tool paths carefully:
+
+Global Tool Configuration: Go to Manage Jenkins -> Global Tool Configuration. Under Maven, you configure a specific version name (e.g., maven-3.9). This tells Jenkins where to look for the Maven executable or instructs it to install it automatically if missing on worker nodes.
+
+Calling Maven inside Pipelines: You pull that configured tool reference into your runtime blocks using the tools declaration block:
+
+Groovy
+pipeline {
+    agent any
+    tools {
+        maven 'maven-3.9' // Injects the configured Maven paths into our shell execution environments
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean package' // Now you can call raw maven globally without the wrapper script
+            }
+        }
+    }
+}
+Code Coverage & Reports: By calling plugins like junit '/target/surefire-reports/*.xml', Jenkins parses your automated test execution data and generates clean visual graphics detailing historical pass/fail trends directly on your job dashboard dashboard interface.
+
+🐳 5. Jenkins & Docker Integration
+Running Docker inside an automation environment requires careful consideration. There are two primary integration patterns:
+
+Pattern 1: Docker as a Build Utility (Docker inside Jenkins Agents)
+Your worker agent runs on a bare Linux server that has the native Docker daemon engine installed. Your pipeline stages invoke raw shell commands directly against that host daemon to bundle, tag, and publish your compiled application assets:
+
+Groovy
+steps {
+    sh 'docker build -t myapp:latest .'
+    withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+        sh "docker login -u ${USER} -p ${PASS}"
+        sh 'docker push myapp:latest'
+    }
+}
+Pattern 2: Docker-Based Isolated Execution Agents
+Instead of installing diverse Java runtime setups or node dependencies directly on your host machines, you instruct Jenkins to provision transient container execution instances on the fly. The pipeline steps run entirely enclosed within that sandboxed wrapper context:
+
+Groovy
+pipeline {
+    agent {
+        docker { 
+            image 'maven:3.9.6-eclipse-temurin-17-alpine' // Spawns this explicit container container to run our build step
+        }
+    }
+    stages {
+        stage('Compile') {
+            steps {
+                sh 'mvn clean package' // Runs clean inside the isolated Maven container workspace
+            }
+        }
+    }
+}

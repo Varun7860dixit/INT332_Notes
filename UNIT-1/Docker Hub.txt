@@ -1,0 +1,32 @@
+			****DOCKER HUB****
+
+centarlized repo for docker images
+
+|-> public and private repo
+|-> official images
+|-> automated builds
+|-> importance in devops
+
+
+
+key components-> 
+	|-> docker client
+	|-> docker daemon
+	|-> docker images
+	|-> containers
+	|-> docker registry (docker hub)
+
+basic workflow of docker -> pull image -> create container -> user access
+
+STAGES-> 
+	build -> create an image
+	ship -> share images via docker hub
+	run -> start containers
+
+containers states: created, running, paused, stopped
+
+		DOCKER VS VM
+
+	|-> containers share the host OS kernel
+	|-> no guest OS boot needed
+	|-> less resource usage and faster startup

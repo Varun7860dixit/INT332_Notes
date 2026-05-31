@@ -1,0 +1,32 @@
+				VIRTUALIZATION
+
+process of partitioning a physical server into multiple virtual servers
+
+Hypervisor-> a software under which the process of partioning take place
+
+after partitioning, virtual servers act as physical servers
+
+	Advantages->
+
+enhancement in performance
+optimum use of resources
+space saving
+better security
+overall cost saver
+
+	Drawbacks
+heavy resouce overhead
+slow boot time
+increase infrastructure cost
+limited application portability
+higher management
+inefficient scalability
+
+These drawbacks give birth to the concept of containerization
+
+offering ->
+	lightweight isolation
+	faster deployment
+	better portability
+	seamless integration with DevOps
+	microservices achitectures

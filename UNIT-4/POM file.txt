@@ -1,0 +1,24 @@
+2. The POM and Maven Structure
+Maven is obsessed with Convention over Configuration. This means Maven says: "If you put your files exactly where I tell you to, you don’t have to write boring setup code. I'll just know where everything is."
+
+The Standard Directory Layout
+Look at any Maven project on GitHub; it always looks exactly like this:
+
+Plaintext
+📁 my-app/
+├── 📄 pom.xml                 # The brain of the project
+└── 📁 src/
+    ├── 📁 main/               # The real app code that goes to production
+    │   ├── 📁 java/           # All your .java files
+    │   └── 📁 resources/      # Config files, application.properties, images
+    └── 📁 test/               # Your testing ground
+        ├── 📁 java/           # Your JUnit test files
+        └── 📁 resources/      # Mock data for tests
+The pom.xml (Project Object Model)
+This is the holy grail file. If it’s not in the POM, Maven doesn't care about it. Every project must have unique coordinates called GAV:
+
+GroupId: Your company/college domain backwards (e.g., com.lpu.devops).
+
+ArtifactId: The name of your specific project (e.g., payment-gateway).
+
+Version: Where you are in the lifecycle (e.g., 1.0.0-SNAPSHOT means it's still a work in progress).

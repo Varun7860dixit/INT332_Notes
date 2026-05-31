@@ -1,0 +1,74 @@
+	CONTAINER IMAGE
+
+read only blueprint
+contains-> base OS(minimal), application code, libraries & dependencies, runtime, configuration
+
+images are immutable, once built, they don't change
+
+EXAMPLE:-
+	python:3.11-slim is the image
+	already includes: linux OS, pyhton 3.11, standard python libraries
+
+	IMAGE LAYERS
+	
+each image is built as a stack of layers
+each instruction in a dockerfile = one layer
+layers are immutable, cached, reused across images
+
+BENEFITS:
+	faster builds, smaller storage, faster deployment
+
+
+			IMAGE REGISTRY
+
+	centralized repo used to store, manage, version, and distribute container images.
+
+	enables:
+		sharing images across teams and environments
+		consistent deployemnt
+		intergration with CI/CD
+	In devops: githb-> source code : maven -> for java libraries
+
+
+need of registry->
+	earlier-> 
+		manual installation
+		no version control
+		high consisitency across environments
+		each system must build images independently
+
+	NOW->
+		build once, deploy everywhere
+		faster deployments
+		rollback capability
+		version controlled environments
+
+TYPES OF REGISTRY:
+	1. public registry:
+		allow open access to images
+		|->images are publicaly visisble
+		|-> often free
+		|-> anyone can pull images
+		|-> used for base images open source applications
+
+	2. private registry:
+		restrict access using authentication and authorization
+
+		|-> secure and controlled access
+		|-> used in enterprises
+		|-> stores proprietary applications
+
+		Examples-> aws ecr, acr, ghcr, on-premises private registry
+
+
+IMAGE NAMING CONVENTION->
+	follows a standard naming
+	<registry>/<namespace>/<image>:<tag>
+	ex -> docker.io/vansh/webapp:v1
+
+TAG VS VERSION-> tags identify different versions of the same image
+
+
+IMAGE DISTRIBUTION PROCESS-> push or pull operations
+
+IN conclusion, a registry acts as the bridge between CI and CD

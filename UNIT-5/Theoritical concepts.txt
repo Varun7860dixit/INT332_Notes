@@ -1,0 +1,99 @@
+CONTINUOUS INTEGRATION WITH GITHUB ACTIONS
+
+
+github actions -> a CI/CD platform that allow you to automate workflows directly inside your github repository.
+
+helps in :
+build code
+running tests
+deploying applications
+automating repetitive evelopments tasks.
+
+workflow->
+a workflow is an automated process defined in a YAML file.
+stored insie .github/workflows/.
+contans one or more jobs.
+each job has steps (commands/actions)
+
+structure of workflow->
+name: my first workflow
+on: push
+job:
+build:
+runs-on: ubuntu-latest
+
+steps:
+name: checkout code
+uses: action/checkout@v3
+
+-name: run a script
+run: echo "Hello World!!"
+
+
+components:
+event (on) -> when to run.
+jobs-> what to do
+steps -> how to do
+actions -> predefined reusable tasks
+
+
+events-> are activities that trigger workflows.
+examples:-
+push -> when code is pushed
+pull
+pull_request
+workflow_dispatch ->manual trigger
+schedule ->  runs on cron timing
+issues -> when issue is created/updated
+
+
+Triggers:- the condition under which an event runs a workflow.
+event-> push
+trigger -> only on main branch
+
+
+Types of triggers:-
+1. branch-based trigger -> branches - [main,dev]
+2. Path-based trigger
+3. tag-based trigger
+4. time-based trigger
+5. workflow directory structure
+
+jobs:- workflow contains multiple jobs,
+
+steps:- each job has steps executed sequentially
+
+
+actions:-
+reusable units of code.
+example:
+uses: actions checkout@v3
+
+
+runners:-
+a server that runs your workflows
+
+types:
+1. github-hosted (ubuntu, windows)
+2. self-hosted
+
+
+					GITHUB ACTIONS WORKFLOWS
+
+
+push trigger -> runs workflows when code is pushed
+
+pull request trigger:-> triggered when a PR is opened, updated, or merged
+
+schedule trigger -> 
+runs workflows at scheduled intervals
+
+manual triggers-> allows users to trigger workflows manually
+
+matrix strategy (parellel execution) -> runs the same job with multiple configuration. (version-14,16,18)
+
+
+
+shell commnads ->run OS command directly 
+
+

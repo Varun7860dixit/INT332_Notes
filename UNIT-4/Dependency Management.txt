@@ -1,0 +1,25 @@
+4. Dependency Management & Drama Resolution
+Dependency Scopes (Who gets what?)
+You don't want your test libraries inside your final production code (it makes the file huge and insecure). You control this with <scope> tags:
+
+compile (Default): You need this library everywhere (writing code, testing, and running the app).
+
+test: You only need this for testing (e.g., JUnit). It gets completely deleted when building the final production .jar.
+
+provided: You need it to write the code, but you expect the server you deploy it on to already have it (like Tomcat).
+
+runtime: You don't need it to compile, but you need it to run (e.g., database drivers).
+
+Transitive Dependencies & The "Nearest Wins" Rule
+If you add a dependency for Library A, and Library A secretly relies on Library B, Maven is smart enough to download Library B automatically. This is called a Transitive Dependency.
+
+The Conflict: What if Library A wants Library B v1.0, but you add Library C which wants Library B v2.0? Java will crash if it tries to load both.
+
+How Maven solves it: Nearest Wins. Maven looks at the family tree. Whichever version is closest to your root pom.xml wins. If they are at the same level, whichever one was written first in the XML file wins.
+
+Parent POM & <dependencyManagement>
+If you are running a company with 50 microservices, you don't want 50 different developers using different versions of Spring Boot.
+
+You create a single Parent POM that locks down all the versions inside a <dependencyManagement> block.
+
+The child projects just inherit from the parent. They don't even have to type the <version> tag anymore; they just fetch whatever the parent says is safe.

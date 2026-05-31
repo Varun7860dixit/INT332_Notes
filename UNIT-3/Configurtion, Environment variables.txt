@@ -1,0 +1,120 @@
+3. Configuration, Environment Variables, & Secrets
+Never hardcode database passwords, API keys, or configurations directly inside your container code or raw compose scripts.
+
+1. Environment Variables
+Great for non-sensitive configuration settings (like changing a port number or setting a flag). You can pass them directly inside the YAML file or use an external .env file that Docker Compose picks up automatically.
+
+YAML
+services:
+  backend:
+    image: my-app:latest
+    environment:
+      - PORT=8080
+      - NODE_ENV=production
+2. Docker Secrets and Configs
+Environment variables are insecure for passwords because anyone with terminal access can run docker inspect and see them in plaintext.
+
+Secrets: Mount sensitive data (like private SSL keys or database root passwords) into the container as secure, temporary in-memory files at /run/secrets/secret_name.
+
+Configs: Similar to secrets, but used for non-sensitive application settings files (like Nginx routing configuration scripts).
+
+📁 4. Use Case Deployments (Exam Cheat Sheets)
+Here are the complete boilerplate structural templates for standard multi-container environments.
+
+📝 Template A: Node.js + MongoDB (Environment Keys & Volumes)
+Perfect for a standard JavaScript full-stack application. Notice how the Node app connects to MongoDB using the service hostname database_service.
+
+YAML
+version: '3.8'
+
+services:
+  web_app:
+    build: ./node-app
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://database_service:27017/mydb
+    depends_on:
+      - database_service
+
+  database_service:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
+📝 Template B: Java Spring Boot + PostgreSQL (Isolated Networks)
+This template demonstrates how to completely hide your database from the outside world using separate frontend and backend networks.
+
+YAML
+version: '3.8'
+
+services:
+  api_service:
+    build: ./spring-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db_service:5432/appdb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=secret_pass
+    networks:
+      - frontend_net
+      - backend_net
+    depends_on:
+      - db_service
+
+  db_service:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=appdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret_pass
+    networks:
+      - backend_net # Completely hidden from the frontend network!
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+networks:
+  frontend_net:
+  backend_net:
+
+volumes:
+  pg_data:
+📝 Template C: WordPress + MySQL (Production CMS Stack)
+A standard enterprise content management system deployment using interconnected base images, explicit environment mappings, and persistent storage synchronization.
+
+YAML
+version: '3.8'
+
+services:
+  wordpress_cms:
+    image: wordpress:latest
+    ports:
+      - "80:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql_db:5432
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_password
+      WORDPRESS_DB_NAME: wordpress_db
+    volumes:
+      - wordpress_files:/var/swp/html
+    depends_on:
+      - mysql_db
+
+  mysql_db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: wordpress_db
+      MYSQL_USER: wp_user
+      MYSQL_PASSWORD: wp_password
+      MYSQL_ROOT_PASSWORD: root_secure_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  wordpress_files:
+  mysql_data:

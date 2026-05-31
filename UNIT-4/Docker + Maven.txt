@@ -1,0 +1,24 @@
+6. Docker + Maven Integration
+Once your Maven build creates a nice .jar file, you need to put it inside a Docker container so it can run in the cloud.
+
+Method A: The Multi-Stage Dockerfile (The Clean Way)
+You write a Dockerfile that handles both building the app and running it. This means you don't even need Maven installed on your host machine!
+
+Dockerfile
+# STAGE 1: Build the app using a Maven container
+FROM maven:3.9.6-eclipse-temurin-17 AS builder
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN ./mvnw clean package -DskipTests
+
+# STAGE 2: Take the packaged .jar and run it on a lightweight Java runtime
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+COPY --from=builder /app/target/my-app-1.0.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
+Method B: Automation Plugins (dockerfile-maven-plugin)
+If you hate writing Dockerfiles manually, you can paste the Spotify dockerfile-maven-plugin directly into your pom.xml.
+
+You tell the plugin: "Hey, whenever I run mvn package, I want you to automatically trigger a docker build right after." This keeps everything inside the native Java eco-system, and running a single command generates your code package and your Docker container image simultaneously.

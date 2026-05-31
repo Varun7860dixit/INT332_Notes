@@ -1,0 +1,18 @@
+3. The Maven Lifecycle (The Golden Chain)
+When you tell Maven to do something, it executes a sequence of phases. Crucial Exam Rule: If you call a phase, Maven will automatically execute every single phase that comes before it in order.
+
+Here is the chain you need to memorize:
+
+validate: "Hey Maven, check if my project folder structure is correct and if I'm missing anything obvious."
+
+compile: Translates your human-readable .java files into machine-readable .class bytecode. (Drops them into a newly created target/ folder).
+
+test: Runs your unit tests (JUnit). Pro-tip: If a test fails here, Maven will stop the whole build right on the spot to protect production.
+
+package: Takes all those compiled .class files and zips them up into a neat little package, usually a .jar (Java Archive) or .war (Web Archive).
+
+verify: Runs heavy integration tests to make sure the package actually works.
+
+install: Takes your local .jar file and pushes it into your local computer's hidden Maven warehouse (usually found at ~/.m2/repository). Now your other local projects can use it.
+
+deploy: Pushes the final version up to a remote company server (like Nexus or Artifactory) so your whole team can download it.

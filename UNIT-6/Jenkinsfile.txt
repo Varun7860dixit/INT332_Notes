@@ -1,0 +1,67 @@
+3. Core Anatomy of a Declarative Jenkinsfile
+Every standard declarative pipeline follows a strict hierarchical layout mapping core runtime behaviors:
+
+Groovy
+pipeline {
+    // 1. Where should this run? (any available agent, a specific label, or a container)
+    agent any 
+
+    // 2. Define inputs that users must provide before clicking "Run"
+    parameters {
+        string(name: 'DEPLOY_ENV', defaultValue: 'staging', description: 'Target environment')
+    }
+
+    // 3. Global environment variables injected across all compilation steps
+    environment {
+        DOCKER_REGISTRY = 'docker.io/myusername'
+        APP_NAME        = 'student-api'
+    }
+
+    // 4. The sequential blocks outlining execution logic
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/your-username/your-repo.git'
+            }
+        }
+
+        stage('Maven Build') {
+            steps {
+                // sh executes a shell script command on Linux execution agents
+                sh './mvnw clean package -DskipTests' 
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh './mvnw test'
+            }
+            // Post-condition block that triggers actions depending on step outcome
+            post {
+                always {
+                    // Collect and display JUnit XML test reports in the Jenkins UI
+                    junit '**/target/surefire-reports/*.xml'
+                }
+            }
+        }
+
+        stage('Archive Artifacts') {
+            steps {
+                // Safeguards the compiled jar by storing it directly on the Jenkins Controller server
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }
+        }
+    }
+
+    // 5. Global cleanup or notification blocks running at the end of the pipeline
+    post {
+        success {
+            echo 'Pipeline executed flawlessly!'
+        }
+        failure {
+            echo 'Pipeline crashed. Sending alerts to engineering team...'
+        }
+    }
+}
+What is a Multi-Branch Pipeline?
+Instead of creating individual jobs for every single branch in your Git repository, you configure a Multi-Branch Pipeline. Jenkins scans your entire GitHub repository automatically. If it detects a Jenkinsfile inside a newly created branch (like feature-login), it automatically provisions a new isolated build track for that branch instantly.

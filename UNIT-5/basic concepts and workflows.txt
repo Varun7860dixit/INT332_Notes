@@ -1,0 +1,43 @@
+1. Core CI Concepts & Workflow Automation
+What is Continuous Integration (CI)?
+Before CI, developers worked on isolated branches for weeks, then tried to merge their code all at once. This resulted in "Merge Hell"—broken builds, conflicting code, and tests failing everywhere.
+
+Continuous Integration solves this by forcing everyone to merge their code changes into a shared mainline repository frequently (usually multiple times a day). Every single time you push code, an automated system kicks in to:
+
+Pull the fresh code.
+
+Build the application.
+
+Run the complete test suite.
+
+Report back immediately if anything broke.
+
+The GitHub Actions Architecture
+GitHub Actions is GitHub’s native automation engine. It isn't just for building code; you can use it to automate almost anything in your repository lifecycle (e.g., closing stale issues, assigning labels, or publishing packages).
+
+📐 2. The Workflow Directory Structure & Key Components
+To make GitHub Actions work, you don't install software on your laptop. You configure it purely using YAML files.
+
+The Mandatory Directory Structure
+GitHub look explicitly for workflow configurations in a specific hidden path at the root of your project:
+
+Plaintext
+📁 my-project-repo/
+└── 📁 .github/
+    └── 📁 workflows/
+        ├── 📄 ci-pipeline.yml    # You can name this anything you want
+        └── 📄 nightly-test.yml   # You can have multiple workflow files
+The 5 Key Components of GitHub Actions
+Think of the architecture as a set of nested boxes:
+
+Workflow: The top-level automated process. It’s the entire blueprint file (e.g., "Build and Test Pipeline").
+
+Event / Trigger: The specific lifecycle hook that wakes the workflow up (e.g., a code push).
+
+Runner: The machine (a fresh, clean virtual machine or container in the cloud) that executes your workflow script.
+
+Job: A set of execution steps that run on the same runner. By default, if your workflow has multiple jobs, they run in parallel (at the same time) on separate runners.
+
+Step: An individual task within a job. Steps run sequentially (one after the other). A step can either run a raw shell command or invoke an Action.
+
+Action: A reusable, pre-packaged plugin block that handles complex tasks (e.g., checking out code, setting up Java, or authenticating with AWS).

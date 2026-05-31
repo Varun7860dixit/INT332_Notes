@@ -1,0 +1,24 @@
+		DOCKER NETWORKING
+
+A. BRIDGE NETWORK->
+
+	default network when u run a container
+	conatiners on same bridge
+
+docker network ls
+docker network inspect bridge
+docker network create my_bridge_net
+docker run -d --name container1 --network my_bridge nginx
+docker run -d --name container2 --network my_bridge alpine sleep 300
+docker exec -it container2 ping container
+B. HOST NETWORK
+	docker run -d --network host nginx
+	curl http://localhost
+
+C. OVERLAY NETWORK
+
+	docker swarm-> run multiple containers
+
+	docker swarm init
+	docker network create -d overlay bridge
+	docker service create --name web --network bridge -p 8080:80 nginx

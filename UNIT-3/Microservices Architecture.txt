@@ -1,0 +1,29 @@
+1. Microservices Architecture Foundations
+Why Microservices? (The Shift from Monoliths)
+When you start building an app, it’s easy to throw all your code into one single project. This is a Monolithic Architecture. The entire application—user authentication, payment processing, catalog search, and notifications—shares the exact same codebase, database, and memory footprint.
+
+As a company scales, a monolith becomes a nightmare:
+
+The Blast Radius Problem: If a junior intern introduces a memory leak into the notification code, the entire application crashes, taking down payments and user logins with it.
+
+Scaling Inefficiencies: If your product catalog gets a massive spike in traffic, you have to duplicate the entire monolith across new servers, wasting massive amounts of CPU and RAM on idling services.
+
+The Fix: Microservices. You break that giant app apart into small, completely independent, specialized apps (services) that talk to each other over lightweight network protocols (like HTTP REST or gRPC).
+
+Core Advantages
+Scalability: If your payment service is struggling under heavy traffic, you can spin up 10 extra container instances of just the payment service without touching the rest of your system.
+
+Isolation (Fault Tolerance): If the notification service crashes, users can still log in, browse products, and check out. The system degrades gracefully.
+
+Agility: The team handling the catalog can write it in Python, while the team handling payments can write it in Java. They can deploy updates independently whenever they want without waiting for a massive global release cycle.
+
+What is an API Gateway?
+In a microservices setup, you might have 50 separate microservices running on different ports. You don't want your frontend app (mobile or web) trying to keep track of 50 different URLs and hitting them directly.
+
+An API Gateway acts as a single, centralized front door for your system. The client sends every request to the API Gateway (e.g., api.mycompany.com), and the gateway handles:
+
+Routing: Directing /orders to the Order service and /users to the User service.
+
+Authentication: Checking if the user's login token is valid before letting them hit downstream services.
+
+Load Balancing: Distributing requests evenly across healthy service containers.
