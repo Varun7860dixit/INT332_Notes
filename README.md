@@ -1,18 +1,4 @@
-# 🐳 Mastering DevOps: Virtualization, Containerization & CI/CD Pipelines
-
-<div align="center">
-
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-![GitHub Actions](https://img.shields.io/badge/github%20actions-%232088FF.svg?style=for-the-badge&logo=githubactions&logoColor=white)
-![Jenkins](https://img.shields.io/badge/jenkins-%23D24939.svg?style=for-the-badge&logo=jenkins&logoColor=white)
-![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
-
-> **"Ship faster. Run anywhere. Automate completely."** > A comprehensive, production-grade laboratory ledger tracing the evolution of modern cloud-native workflows.
-
-[📁 Explore Units](#-repository-architecture--syllabus-mapping) • [🚀 Command Playground](#-production-ready-command-playground) • [🤝 Connect](#-author--professional-network)
-
-</div>
+#  Mastering DevOps: Virtualization, Containerization & CI/CD Pipelines
 
 ---
 
